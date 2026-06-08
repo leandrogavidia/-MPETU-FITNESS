@@ -46,9 +46,10 @@ if (apiKey && apiKey !== "MY_GEMINI_API_KEY") {
   console.warn("GEMINI_API_KEY not found or is placeholder. AI translation & tips in Spanish will use preloaded fallback data.");
 }
 
-// In-Memory Exercise Cache
-let exerciseCache: Exercise[] = [];
+// In-Memory Exercise Cache - Pre-seeded with local fallback exercises so that it is NEVER empty on startup!
+let exerciseCache: Exercise[] = [...FALLBACK_EXERCISES];
 let isCacheLoading = false;
+let isCacheLoadedFromNetwork = false;
 
 // Constant Categories as high-speed fallbacks
 const BODY_PARTS = ["back", "cardio", "chest", "lower arms", "lower legs", "neck", "shoulders", "upper arms", "upper legs", "waist"];
@@ -203,7 +204,7 @@ async function fetchWorkoutXExercises(): Promise<Exercise[]> {
 
 // Populate Cache on Startup or Lazy Load
 async function loadExercisesToCache() {
-  if (exerciseCache.length > 0 || isCacheLoading) return;
+  if (isCacheLoadedFromNetwork || isCacheLoading) return;
   isCacheLoading = true;
   console.log("Loading exercises into fullstack server cache...");
   
@@ -270,6 +271,9 @@ async function loadExercisesToCache() {
     console.error("Error merging WorkoutX exercises into cache:", wxErr);
   }
 
+  if (loadedBase) {
+    isCacheLoadedFromNetwork = true;
+  }
   isCacheLoading = false;
 }
 

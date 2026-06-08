@@ -321,10 +321,6 @@ export default function App() {
         setExercises(data.results);
         setTotalCount(data.totalCount);
         setIsLocalFallback(data.isLocalFallback);
-        
-        if (data.results.length === 0) {
-          setErrorMsg("No se encontraron ejercicios que coincidan con la búsqueda. Intenta con otros filtros u otra palabra clave.");
-        }
       } else {
         throw new Error("Respuesta no satisfactoria del servidor remoto.");
       }
@@ -993,6 +989,22 @@ export default function App() {
                 </div>
               </div>
             ))}
+          </div>
+        ) : exercises.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 px-4 text-center bg-[#072029]/40 border border-teal-900/30 rounded-2xl">
+            <div className="w-16 h-16 rounded-full bg-teal-950/40 border border-teal-800/40 flex items-center justify-center text-[#14f195] mb-4 animate-bounce">
+              <Dumbbell className="w-8 h-8" />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-2">No se encontraron bloques de ejercicio</h3>
+            <p className="text-sm text-gray-400 max-w-md mx-auto mb-6">
+              No hay ejercicios compilados on-chain que coincidan con los filtros de búsqueda actuales. Prueba a limpiar los filtros o realizar una búsqueda con palabras clave más generales.
+            </p>
+            <button
+              onClick={handleClearFilters}
+              className="px-5 py-2.5 text-xs font-mono bg-[#14f195] hover:bg-[#10c47a] text-black rounded-lg transition duration-200 font-bold uppercase tracking-wider cursor-pointer"
+            >
+              Resetear Filtros y Buscar de Nuevo
+            </button>
           </div>
         ) : (
           /* EXERCISE GRID */
