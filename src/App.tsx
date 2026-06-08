@@ -134,7 +134,7 @@ export default function App() {
   const [imageMode, setImageMode] = useState<"gif" | "static">("gif");
   const [confirmReset, setConfirmReset] = useState<boolean>(false);
   const [showDocModal, setShowDocModal] = useState<boolean>(false);
-  const [docSubTab, setDocSubTab] = useState<"landing" | "protocol">("landing");
+  const [docSubTab, setDocSubTab] = useState<string>("welcome");
 
   // Web3 Wallet Connections States & Integrations
   const [walletConnected, setWalletConnected] = useState<boolean>(() => {
@@ -1568,263 +1568,617 @@ export default function App() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowDocModal(false)}
-              className="fixed inset-0 bg-[#020a0d]/85 backdrop-blur-md" 
+              className="fixed inset-0 bg-[#020a0d]/90 backdrop-blur-md" 
             />
 
             {/* Modal Box */}
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              initial={{ opacity: 0, scale: 0.96, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              exit={{ opacity: 0, scale: 0.96, y: 20 }}
               transition={{ type: "spring", duration: 0.4 }}
-              className="relative w-full max-w-2xl bg-[#082029] border border-teal-800/80 rounded-2xl shadow-2xl overflow-hidden z-10 font-sans max-h-[85vh] flex flex-col"
+              className="relative w-full max-w-5xl bg-[#082029] border border-teal-800/80 rounded-2xl shadow-2xl overflow-hidden z-10 font-sans h-[90vh] md:h-[82vh] flex flex-col"
             >
               
               {/* Modal Custom Top Glowing line */}
-              <div className="h-1 w-full bg-gradient-to-r from-cyan-400 via-[#14f195] to-cyan-400" />
+              <div className="h-1.5 w-full bg-gradient-to-r from-cyan-400 via-[#14f195] to-[#9945ff]" />
 
               {/* Header Box */}
               <div className="p-5 border-b border-teal-900/60 flex items-center justify-between bg-[#05171d]">
-                <div className="flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-cyan-400" />
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-lg bg-teal-950/80 border border-teal-850/60 flex items-center justify-center">
+                    <BookOpen className="w-5 h-5 text-[#14f195]" />
+                  </div>
                   <div>
-                    <h3 className="text-sm font-extrabold text-white tracking-wider uppercase font-mono">Presentación y Documentación</h3>
-                    <p className="text-[10px] text-teal-300 font-mono uppercase">Ímpetu: El ecosistema fitness gamificado de Solana</p>
+                    <h3 className="text-sm font-black text-white tracking-widest uppercase font-mono flex items-center gap-2">
+                      ÍMPETU <span className="text-[10px] bg-[#14f195]/10 text-[#14f195] px-2 py-0.5 rounded border border-[#14f195]/20 font-bold">WHITEPAPER v1.0.4</span>
+                    </h3>
+                    <p className="text-[10px] text-teal-300 font-mono uppercase">Especificaciones del ecosistema fitness gamificado de Solana</p>
                   </div>
                 </div>
-                <button 
-                  onClick={() => setShowDocModal(false)}
-                  className="p-1 px-2.5 rounded-lg bg-[#0d2d38] hover:bg-teal-900 text-teal-300 hover:text-white border border-teal-850/60 transition font-mono text-xs cursor-pointer"
-                >
-                  ESC
-                </button>
+                <div className="flex items-center gap-2">
+                  <span className="hidden sm:inline-block text-[10px] font-mono text-teal-500 uppercase tracking-widest bg-teal-950/40 px-2.5 py-1 rounded border border-teal-900/30">
+                    Proof-of-Sweat v1
+                  </span>
+                  <button 
+                    onClick={() => setShowDocModal(false)}
+                    className="p-1 px-3 py-1.5 rounded-lg bg-[#0d2d38] hover:bg-teal-900 text-teal-300 hover:text-white border border-teal-850/60 transition font-mono text-xs cursor-pointer font-bold"
+                  >
+                    CERRAR
+                  </button>
+                </div>
               </div>
 
-              {/* Sub-Navigation Tabs */}
-              <div className="flex bg-[#031318] border-b border-teal-900/40 p-1">
-                <button
-                  onClick={() => setDocSubTab("landing")}
-                  className={`flex-1 py-2.5 text-xs font-mono font-bold tracking-wider uppercase transition-all duration-155 rounded-lg cursor-pointer ${
-                    docSubTab === "landing"
-                      ? "bg-[#0d2e38] text-[#14f195] border border-teal-800/40 shadow-md"
-                      : "text-teal-400/70 hover:text-teal-200"
-                  }`}
-                >
-                  🚀 Presentación Principal
-                </button>
-                <button
-                  onClick={() => setDocSubTab("protocol")}
-                  className={`flex-1 py-2.5 text-xs font-mono font-bold tracking-wider uppercase transition-all duration-155 rounded-lg cursor-pointer ${
-                    docSubTab === "protocol"
-                      ? "bg-[#0d2e38] text-[#14f195] border border-teal-800/40 shadow-md"
-                      : "text-teal-400/70 hover:text-teal-200"
-                  }`}
-                >
-                  ⚙️ Especificaciones Técnicas
-                </button>
-              </div>
-
-              {/* Scrollable content of Documentacion */}
-              <div className="overflow-y-auto p-6 sm:p-7 space-y-5 text-left text-teal-100">
+              {/* MAIN CONTENT SPLIT LAYOUT */}
+              <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
                 
-                {docSubTab === "landing" ? (
-                  /* LANDING PAGE VERSION */
-                  <div className="space-y-5">
-                    {/* Welcome Banner */}
-                    <div className="p-4 rounded-xl bg-gradient-to-r from-teal-950/40 via-[#051a21]/50 to-teal-950/40 border border-teal-900/50">
-                      <h4 className="text-sm font-bold text-white uppercase font-mono tracking-wider mb-1 flex items-center gap-2">
-                        <Zap className="w-4 h-4 text-[#14f195] animate-pulse" /> Ímpetu: Fitness On-Chain
-                      </h4>
-                      <p className="text-xs text-teal-200/90 leading-relaxed">
-                        Bienvenido a la página de presentación del protocolo. Ímpetu redefine la disciplina atlética mediante gamificación profunda de rutinas e incentivos simétricos de finanzas descentralizadas en el ecosistema Solana.
-                      </p>
-                    </div>
-
-                    {/* Left & Right Grid Details */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* 1. Qué es & Nombre */}
-                      <div className="p-4 bg-[#05171d]/60 border border-teal-900/40 rounded-xl space-y-1.5">
-                        <span className="text-[10px] font-mono text-[#14f195] font-bold uppercase tracking-widest block">Proyecto y Qué construimos</span>
-                        <h5 className="text-xs font-bold text-white font-mono">Ímpetu - Solana Fitness</h5>
-                        <p className="text-[11px] text-teal-300 leading-relaxed">
-                          Un panel interactivo biomecánico y de validación "Proof-of-Sweat" en tiempo real que estructura rutinas físicas detalladas traducidas y asistidas con Inteligencia Artificial.
-                        </p>
-                      </div>
-
-                      {/* 2. Para quién es */}
-                      <div className="p-4 bg-[#05171d]/60 border border-teal-900/40 rounded-xl space-y-1.5">
-                        <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-widest block">¿Para quién es?</span>
-                        <h5 className="text-xs font-bold text-white font-mono">Atletas & Pioneros Web3</h5>
-                        <p className="text-[11px] text-teal-300 leading-relaxed">
-                          Para deportistas que buscan incentivos lúdicos on-chain para entrenar duro, y usuarios de Solana que quieren llevar su billetera Phantom/Solflare al gym.
-                        </p>
-                      </div>
-
-                      {/* 3. Problema que resuelve */}
-                      <div className="p-4 bg-[#05171d]/60 border border-teal-900/40 rounded-xl space-y-1.5 sm:col-span-2">
-                        <span className="text-[10px] font-mono text-orange-400 font-bold uppercase tracking-widest block">¿Qué problema resuelve?</span>
-                        <h5 className="text-xs font-bold text-white font-mono">Monotonía & Complejidad Web3</h5>
-                        <p className="text-[11px] text-teal-300 leading-relaxed">
-                          Combate el aburrimiento al dotar a cada serie biomecánica de valor real coleccionable. Además, evita los costosos fees de gas utilizando una estructura de validación rápida asíncrona respaldada por un sistema de nodo local súper eficiente.
-                        </p>
-                      </div>
-
-                      {/* 4. Acción principal */}
-                      <div className="p-4 bg-[#05171d]/60 border border-teal-900/40 rounded-xl space-y-1.5 sm:col-span-2">
-                        <span className="text-[10px] font-mono text-[#14f195] font-bold uppercase tracking-widest block">Acción Principal</span>
-                        <h5 className="text-xs font-bold text-white font-mono flex items-center gap-1.5">
-                          <Flame className="w-3.5 h-3.5 text-orange-400" /> Minar $IMP y ganar XP por contracciones musculares
-                        </h5>
-                        <p className="text-[11px] text-teal-300 leading-relaxed">
-                          Explorar cientos de ejercicios de musculación en español, registrar la sesión mediante la acción <strong>"Validar Bloque"</strong> para acuñar tokens $IMP inmediatemente a tu balance, o sincronizar firmas P2P mutuas físicas con compañeros para bonificaciones colectivas de bloque.
-                        </p>
-                      </div>
-
-                      {/* 5. MVP Versión Mínima */}
-                      <div className="p-4 bg-[#05171d]/60 border border-teal-900/40 rounded-xl space-y-1.5">
-                        <span className="text-[10px] font-mono text-[#14f195] font-bold uppercase tracking-widest block">Versión Mínima Viable (MVP)</span>
-                        <h5 className="text-xs font-bold text-white font-mono">Estructura Base del MVP</h5>
-                        <ul className="text-[11px] text-teal-350 list-disc list-inside space-y-0.5">
-                          <li>Búsqueda fluida bilingüe de ejercicios</li>
-                          <li>Conexión de billetera Solana simulada</li>
-                          <li>Acuñamiento local asíncrono de $IMP</li>
-                          <li>Generador asimétrico de cupones</li>
-                        </ul>
-                      </div>
-
-                      {/* 6. Estado Actual */}
-                      <div className="p-4 bg-[#05171d]/60 border border-teal-900/40 rounded-xl space-y-1.5">
-                        <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-widest block">Estado Actual</span>
-                        <h5 className="text-xs font-bold text-[#14f195] font-mono flex items-center gap-1">
-                          <Check className="w-3.5 h-3.5" /> Live Alpha-Node
-                        </h5>
-                        <p className="text-[11px] text-teal-300 leading-relaxed">
-                          La dApp está completamente operativa en su capa de interfaz y backend con caché unificado híbrido, conectores simulados de Red Solana (Mainnet/Devnet) y traducción AI server-side vía Gemini en español.
-                        </p>
-                      </div>
-
-                      {/* 7. Próximos pasos */}
-                      <div className="p-4 bg-[#05171d]/60 border border-teal-900/40 rounded-xl space-y-1.5 sm:col-span-2">
-                        <span className="text-[10px] font-mono text-purple-400 font-bold uppercase tracking-widest block">Próximos Pasos</span>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-teal-300 pt-0.5">
-                          <div className="flex gap-1.5 items-start">
-                            <span className="bg-purple-950 text-purple-400 px-1 rounded font-mono font-bold text-[9px] mt-0.5">A</span>
-                            <span>Acuñar tokens $IMP como un token SPL real en Solana Devnet.</span>
-                          </div>
-                          <div className="flex gap-1.5 items-start">
-                            <span className="bg-purple-950 text-purple-400 px-1 rounded font-mono font-bold text-[9px] mt-0.5">B</span>
-                            <span>Integración e ingesta directa de sensores biométricos de smartwatches (Apple Watch/Fitbit).</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* 8. Roles en el Equipo */}
-                      <div className="p-4 bg-[#05171d]/60 border border-teal-900/40 rounded-xl space-y-2 sm:col-span-2">
-                        <span className="text-[10px] font-mono text-teal-400 font-bold uppercase tracking-widest block">Roles del Equipo</span>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px]">
-                          <div>
-                            <strong className="text-white block font-mono">👨‍💻 Front-End & UX/UI Engineer</strong>
-                            <p className="text-[10px] text-teal-350">Diseño interactivo de gamificación, estados de XP, Marketplace y animaciones.</p>
-                          </div>
-                          <div>
-                            <strong className="text-white block font-mono">⛓️ Solana Web3 Developer</strong>
-                            <p className="text-[10px] text-teal-350">Manejo de firmas criptográficas de billeteras y adapters de Solana RPC.</p>
-                          </div>
-                          <div>
-                            <strong className="text-white block font-mono">🤖 AI & LLM Engineer</strong>
-                            <p className="text-[10px] text-teal-350">Configuración server-side de traducciones inteligentes por Gemini API.</p>
-                          </div>
-                          <div>
-                            <strong className="text-white block font-mono">💪 Atleta Validador (P2P Node)</strong>
-                            <p className="text-[10px] text-teal-350">Verificadores biomecánicos humanos que firman multisig para incentivos mutuos.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                {/* 1. LEFT SIDEBAR: CHAPTER LIST DIRECTORY (Desktop Layout) */}
+                <div className="hidden md:flex flex-col w-72 bg-[#041115] border-r border-teal-950/80 p-4 overflow-y-auto space-y-2 select-none">
+                  <div className="px-2 py-1 mb-2">
+                    <span className="text-[10px] font-mono text-teal-500 font-bold uppercase tracking-widest">Capítulos del Documento</span>
                   </div>
-                ) : (
-                  /* PROTOCOL DETAILS VERSION */
+                  
+                  {[
+                    { id: "welcome", label: "0.0 Portada & Visión", icon: Zap, color: "text-amber-400" },
+                    { id: "building", label: "1.0 ¿Qué construimos?", icon: Sparkles, color: "text-[#14f195]" },
+                    { id: "audience", label: "2.0 ¿Para quién es?", icon: UserCheck, color: "text-sky-450" },
+                    { id: "problem", label: "3.0 Problema que resuelve", icon: AlertCircle, color: "text-red-400" },
+                    { id: "action", label: "4.0 Acción Principal", icon: Flame, color: "text-orange-400" },
+                    { id: "mvp", label: "5.0 Alcance Mínimo (MVP)", icon: Dumbbell, color: "text-pink-400" },
+                    { id: "status", label: "6.0 Estado Actual", icon: Activity, color: "text-emerald-400" },
+                    { id: "next", label: "7.0 Próximos Pasos", icon: TrendingUp, color: "text-purple-400" },
+                    { id: "roles", label: "8.0 Roles y Equipo", icon: User, color: "text-indigo-400" },
+                    { id: "technical", label: "9.0 Consenso & Token $IMP", icon: Cpu, color: "text-[#9945ff]" }
+                  ].map((chap) => {
+                    const IconComp = chap.icon;
+                    const isActive = docSubTab === chap.id;
+                    return (
+                      <button
+                        key={chap.id}
+                        onClick={() => setDocSubTab(chap.id)}
+                        className={`w-full text-left flex items-center gap-2.5 px-3 py-2 rounded-xl border transition-all duration-150 cursor-pointer ${
+                          isActive 
+                            ? "bg-[#0c2e38] text-white border-teal-800/80 shadow-md translate-x-1" 
+                            : "text-teal-400/70 hover:text-teal-200 bg-transparent border-transparent hover:bg-teal-950/30"
+                        }`}
+                      >
+                        <IconComp className={`w-4 h-4 shrink-0 ${isActive ? "text-[#14f195]" : chap.color}`} />
+                        <span className="text-xs font-mono font-bold tracking-tight">{chap.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* MOBILE dropdown selector for Chapters */}
+                <div className="block md:hidden bg-[#031318] p-3 border-b border-teal-950/80">
+                  <div className="flex flex-col gap-1.5 w-full text-left">
+                    <label className="text-[10px] font-mono font-bold text-teal-400 uppercase tracking-wider">Capítulo Whitepaper:</label>
+                    <select
+                      value={docSubTab}
+                      onChange={(e) => setDocSubTab(e.target.value)}
+                      className="bg-[#082029] border border-teal-800 text-[#14f195] text-xs font-mono font-bold rounded-lg p-2.5 w-full outline-none focus:border-cyan-400"
+                    >
+                      <option value="welcome">0.0 Portada & Visión</option>
+                      <option value="building">1.0 ¿Qué construimos?</option>
+                      <option value="audience">2.0 ¿Para quién es?</option>
+                      <option value="problem">3.0 Problema que resuelve</option>
+                      <option value="action">4.0 Acción Principal</option>
+                      <option value="mvp">5.0 Alcance Mínimo (MVP)</option>
+                      <option value="status">6.0 Estado Actual</option>
+                      <option value="next">7.0 Próximos Pasos</option>
+                      <option value="roles">8.0 Roles y Equipo</option>
+                      <option value="technical">9.0 Consenso & Token $IMP</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* 2. RIGHT PANEL: MAIN DOCUMENT READING AREA */}
+                <div className="flex-1 bg-[#041115] overflow-y-auto p-6 md:p-9 space-y-6 text-left text-teal-100 h-full flex flex-col justify-between">
+                  
+                  {/* Active content block container */}
                   <div className="space-y-6">
-                    {/* Section 1 */}
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-mono font-bold text-[#14f195] uppercase tracking-wider flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#14f195]" /> 1. Arquitectura del Protocolo Ímpetu
-                      </h4>
-                      <p className="text-xs text-teal-200/95 leading-relaxed">
-                        Ímpetu es una aplicación descentralizada (dApp) híbrida diseñada para registrar, validar y premiar el esfuerzo atlético biomecánico sin incurrir en los altos costos de gas de las operaciones on-chain convencionales de Capa 1. Al combinar la potencia del motor de inteligencia artificial de Gemini con el catálogo unificado de ExerciseDB OSS, logramos estructurar rutinas en español de alto rendimiento con validación instantánea.
-                      </p>
-                    </div>
+                    
+                    {/* Welcome chapter (0.0) */}
+                    {docSubTab === "welcome" && (
+                      <div className="space-y-5 animate-fadeIn">
+                        <div className="relative py-12 px-6 rounded-2xl bg-gradient-to-b from-[#082631] to-[#041115] border border-teal-800/40 text-center overflow-hidden">
+                          {/* Ambient background aura */}
+                          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full bg-[#14f195]/10 filter blur-3xl pointer-events-none" />
+                          
+                          <div className="inline-flex p-3 bg-amber-950/30 border border-amber-900/30 rounded-2xl text-amber-400 mb-4 scale-110">
+                            <Zap className="w-8 h-8 animate-pulse text-amber-300" />
+                          </div>
+                          
+                          <h4 className="text-xl font-bold font-mono tracking-widest text-[#14f195] uppercase">
+                            ÍMPETU
+                          </h4>
+                          <span className="text-[10px] font-mono text-cyan-400 tracking-widest uppercase block mt-1.5 font-bold">
+                            SOLANA FITNESS ECOSYSTEM & PROOF-OF-SWEAT CONCORD
+                          </span>
+                          
+                          <div className="max-w-md mx-auto h-px bg-gradient-to-r from-transparent via-teal-900/40 to-transparent my-6" />
+                          
+                          <p className="text-sm font-sans text-teal-250 leading-relaxed max-w-lg mx-auto">
+                            "Estructure rutinas inteligentes, registre contracciones biomecánicas con validación neural de Inteligencia Artificial y mine el primer combustible atlético de Solana: $IMP."
+                          </p>
 
-                    {/* Section 2 */}
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-mono font-bold text-orange-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-orange-400" /> 2. El Mecanismo de Minado de $IMP
-                      </h4>
-                      <p className="text-xs text-teal-200/95 leading-relaxed">
-                        El token <strong className="text-white">$IMP</strong> es una unidad criptográfica utilitaria de simulación acumulada localmente en tu nodo cliente (Database de seguridad aislada). 
-                      </p>
-                      <ul className="text-xs text-teal-250 list-disc list-inside pl-2 space-y-1">
-                        <li><strong className="text-teal-350">Acuñamiento Base:</strong> Al culminar series biomecánicas y presionar <span className="text-white">"Validar Bloque"</span>, se mina $IMP inmediatamente a una proporción de <span className="text-white">3x los puntos de XP</span> del ejercicio.</li>
-                        <li><strong className="text-teal-350">Consenso P2P Mutuo:</strong> Utilizando el escaneo de confirmación física mutua entre compañeros de gimnasio, el protocolo asimétrico inyecta un bloque de firma mutua que libera un subsidio adicional de <span className="text-[#14f195]">+35 $IMP</span> directo a la billetera conectada.</li>
-                        <li><strong className="text-teal-350">Cero Tarifa de Transacción:</strong> Al ejecutarse en un entorno simulado local e híbrido, los usuarios disfrutan de velocidades sub-segundo sin pagar gas de Solana.</li>
-                      </ul>
-                    </div>
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8">
+                            <div className="p-3 rounded-xl bg-[#031318]/70 border border-teal-950">
+                              <span className="text-[9px] text-teal-500 font-mono block uppercase">CONSENSO</span>
+                              <strong className="text-xs text-white font-mono uppercase">Proof-of-Sweat</strong>
+                            </div>
+                            <div className="p-3 rounded-xl bg-[#031318]/70 border border-teal-950">
+                              <span className="text-[9px] text-teal-500 font-mono block uppercase">GAS FEES</span>
+                              <strong className="text-xs text-[#14f195] font-mono">0.00 SOL / Híbrida</strong>
+                            </div>
+                            <div className="p-3 rounded-xl bg-[#031318]/70 border border-teal-950">
+                              <span className="text-[9px] text-teal-500 font-mono block uppercase">BLOCKS</span>
+                              <strong className="text-xs text-white font-mono">Asíncronos Dev</strong>
+                            </div>
+                            <div className="p-3 rounded-xl bg-[#031318]/70 border border-teal-950">
+                              <span className="text-[9px] text-teal-500 font-mono block uppercase">AI ENGINE</span>
+                              <strong className="text-xs text-[#9945ff] font-mono uppercase">Gemini SDK</strong>
+                            </div>
+                          </div>
+                        </div>
 
-                    {/* Section 3 */}
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-mono font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-300" /> 3. Canjes Reales en el Marketplace (Sponsorships)
-                      </h4>
-                      <p className="text-xs text-teal-200/95 leading-relaxed">
-                        La utilidad del token $IMP se materializa en acceso exclusivo de marcas afiliadas a la salud física. Los tokens minados localmente se reducen de la billetera local para generar claves de cupones asimétricas válidas en canales físicos e informáticos como:
-                      </p>
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-                        <div className="bg-[#05171d] p-2.5 rounded-xl border border-teal-900/60">
-                          <h5 className="text-[10px] font-mono text-[#14f195] font-bold">GNC / PROSCIENCE</h5>
-                          <span className="text-[9px] text-teal-400 block">Descuento del 25%</span>
-                        </div>
-                        <div className="bg-[#05171d] p-2.5 rounded-xl border border-teal-900/60">
-                          <h5 className="text-[10px] font-mono text-orange-400 font-bold">SMARTFIT VIP</h5>
-                          <span className="text-[9px] text-teal-400 block">Pase Libre de 7 Días</span>
-                        </div>
-                        <div className="bg-[#05171d] p-2.5 text-[10px] rounded-xl border border-teal-900/60">
-                          <h5 className="text-[10px] font-mono text-cyan-400 font-bold">NIKE STORE</h5>
-                          <span className="text-[9px] text-teal-400 block">Descuento de la Tienda</span>
+                        <div className="space-y-3 p-4 rounded-xl bg-[#082029]/40 border border-teal-900/30">
+                          <h5 className="font-mono text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+                            <Sparkles className="w-4 h-4 text-amber-400" /> RESUMEN EJECUTIVO
+                          </h5>
+                          <p className="text-xs text-teal-200/90 leading-relaxed">
+                            Ímpetu nace de la necesidad de fusionar los hábitos físicos saludables con los nuevos paradigmas financieros Web3. Este whitepaper actúa como hoja de ruta técnica y presentación general, detallando cómo empoderamos a los atletas y cómo aseguramos la robustez del consenso físico sin complicar las transacciones financieras.
+                          </p>
                         </div>
                       </div>
-                    </div>
+                    )}
 
-                    {/* Section 4 */}
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-mono font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" /> 4. Integración Directa con la Red Solana
-                      </h4>
-                      <p className="text-xs text-teal-200/95 leading-relaxed">
-                        Puedes conectar tu billetera oficial de Solana (Phantom, Solflare o Backpack) a la interfaz. Nuestra dApp leerá con seguridad y sin comprometer claves privadas la firma pública para enlazar tu progreso y reflejar tus saldos de SOL reales en tiempo real a través de RPC de Solana.
-                      </p>
-                    </div>
-
-                    <div className="bg-[#05171d]/90 border border-teal-850/60 p-4 rounded-xl flex items-start gap-3">
-                      <Info className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
-                      <div className="space-y-1">
-                        <h5 className="text-xs font-mono font-bold text-white">Seguridad de Nodo Local</h5>
-                        <p className="text-[11px] leading-relaxed text-teal-350">
-                          Para garantizar la accesibilidad y proteger tus finanzas, la aplicación almacena tu información de forma encriptada localmente y usa endpoints asíncronos y libres de coste. ¡Empieza a entrenar de forma inteligente hoy!
+                    {/* Visión chapter (1.0) */}
+                    {docSubTab === "building" && (
+                      <div className="space-y-4 animate-fadeIn">
+                        <div className="flex items-center gap-2 border-b border-teal-950 pb-2">
+                          <Sparkles className="w-5 h-5 text-[#14f195]" />
+                          <h4 className="text-xs font-bold font-mono text-white uppercase tracking-widest">
+                            1.0 ¿QUÉ CONSTRUIMOS EN ÍMPETU?
+                          </h4>
+                        </div>
+                        <p className="text-xs leading-relaxed text-teal-200/95">
+                          Ímpetu es un panel interactivo inteligente y un hub de fitness descentralizado. Construimos un sistema híbrido que dota de valor criptográfico real y cuantificable ($IMP) a cada levantamiento de pesas, contracción muscular o sesión cardiovascular del usuario. 
                         </p>
+                        
+                        <div className="space-y-3 bg-[#05171d] border border-teal-900/30 p-4 rounded-xl mt-3">
+                          <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider block">MOLDEAMIENTO POR INTELIGENCIA ARTIFICIAL</span>
+                          <p className="text-xs text-teal-350 leading-relaxed">
+                            Utilizamos el cerebro de <strong className="text-white">Gemini API</strong> para traducir al español, estructurar rutinas biomecánicas, inyectar tips inteligentes de ejecución para cada masa muscular y contextualizar las rutinas. Traducimos descripciones técnicas complejas en consejos digeribles para entrenar con total seguridad.
+                          </p>
+                          <p className="text-xs text-teal-350 leading-relaxed">
+                            Al conectar esto con una billetera Web3 (Phantom, Solflare, etc.), convertimos la interfaz en un nodo de monitoreo deportivo premium con datos actualizados.
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )}
+
+                    {/* Para quién es (2.0) */}
+                    {docSubTab === "audience" && (
+                      <div className="space-y-4 animate-fadeIn">
+                        <div className="flex items-center gap-2 border-b border-teal-950 pb-2">
+                          <UserCheck className="w-5 h-5 text-sky-400" />
+                          <h4 className="text-xs font-bold font-mono text-white uppercase tracking-widest">
+                            2.0 ¿PARA QUIÉN ES EL PROTOCOLO?
+                          </h4>
+                        </div>
+                        <p className="text-xs leading-relaxed text-teal-200/95">
+                          Diseñamos este software pensando en tres tipos de pilares o agentes de comunidad:
+                        </p>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
+                          <div className="p-4 rounded-xl bg-teal-950/20 border border-teal-900/30 space-y-1.5">
+                            <span className="text-lg">💪</span>
+                            <h5 className="font-mono text-[11px] font-bold text-white uppercase tracking-wide">Deportistas Convencionales</h5>
+                            <p className="text-[10px] text-teal-350 leading-relaxed">
+                              Atletas habituales de gimnasio que buscan incentivos profundos de gamificación para mantener el hábito y ganar recompensas mientras entrenan.
+                            </p>
+                          </div>
+                          
+                          <div className="p-4 rounded-xl bg-teal-950/20 border border-teal-900/30 space-y-1.5">
+                            <span className="text-lg">⛓️</span>
+                            <h5 className="font-mono text-[11px] font-bold text-[#14f195] uppercase tracking-wide">Pioneros de Solana</h5>
+                            <p className="text-[10px] text-teal-350 leading-relaxed">
+                              Entusiastas Web3 interesados en probar interacciones de billetera y apps deportivas que no consuman gas fees on-chain cotidianos para minar.
+                            </p>
+                          </div>
+
+                          <div className="p-4 rounded-xl bg-teal-950/20 border border-teal-900/30 space-y-1.5">
+                            <span className="text-lg">🏢</span>
+                            <h5 className="font-mono text-[11px] font-bold text-cyan-400 uppercase tracking-wide">Gimnasios & Partners</h5>
+                            <p className="text-[10px] text-teal-350 leading-relaxed">
+                              Centros deportivos y marcas que desean captar comunidad Web3 sirviendo cupones asimétricos con utilidad garantizada y fidelización real.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Problema que resuelve (3.0) */}
+                    {docSubTab === "problem" && (
+                      <div className="space-y-4 animate-fadeIn">
+                        <div className="flex items-center gap-2 border-b border-teal-950 pb-2">
+                          <AlertCircle className="w-5 h-5 text-red-400" />
+                          <h4 className="text-xs font-bold font-mono text-white uppercase tracking-widest">
+                            3.0 ¿QUÉ DISRUPCIONES Y PROBLEMAS RESOLVEMOS?
+                          </h4>
+                        </div>
+                        <p className="text-xs leading-relaxed text-teal-200/95">
+                          El ecosistema deportivo y Web3 actual sufre de tres deficiencias fundamentales:
+                        </p>
+
+                        <div className="space-y-3.5 pt-2">
+                          <div className="flex gap-3 p-3 bg-red-950/10 border border-red-900/20 rounded-xl">
+                            <span className="bg-red-950 text-red-400 px-2.0 py-1.0 rounded font-mono font-bold text-[9px] mt-0.5 shrink-0 h-fit">Nº 1</span>
+                            <div>
+                              <strong className="text-white text-xs font-mono block">Alta Tasa de Deserción por Falta de Gamificación</strong>
+                              <p className="text-[11px] text-teal-300 mt-1 leading-relaxed">
+                                Un 70% de las personas abandonan el entrenamiento físico en los primeros tres meses. Al vincular los puntos de XP a tokens de minado real de simulación y cupones tangibles, creamos un gancho motivador y lúdico para romper la monotonía del gimnasio.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex gap-3 p-3 bg-red-950/10 border border-red-900/20 rounded-xl">
+                            <span className="bg-red-950 text-red-400 px-2.0 py-1.0 rounded font-mono font-bold text-[9px] mt-0.5 shrink-0 h-fit">Nº 2</span>
+                            <div>
+                              <strong className="text-white text-xs font-mono block">Complejidad Financiera y Costos de Red en Micro-Acciones</strong>
+                              <p className="text-[11px] text-teal-300 mt-1 leading-relaxed">
+                                Si un usuario tuviera que pagar gas de Solana por validar cada una de las series y flexiones realizadas durante su entrenamiento diario, el sistema sería económicamente insostenible. Ímpetu despliega un protocolo híbrido descentralizado en el cual los tokens $IMP se acumulan localmente y se transfieren asíncronamente con total seguridad y velocidad sub-segundo sin pagar gas.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex gap-3 p-3 bg-red-950/10 border border-red-900/20 rounded-xl">
+                            <span className="bg-red-950 text-red-400 px-2.0 py-1.0 rounded font-mono font-bold text-[9px] mt-0.5 shrink-0 h-fit">Nº 3</span>
+                            <div>
+                              <strong className="text-white text-xs font-mono block">La Barrera del Idioma en las Bases de Ejercicios</strong>
+                              <p className="text-[11px] text-teal-350 mt-1 leading-relaxed">
+                                Los mejores repositorios atléticos públicos de código abierto se encuentran estrictamente en idioma inglés. Al integrar la traducción inteligente con Inteligencia Artificial vía Gemini API en nuestro servidor full-stack, democratizamos el acceso a rutinas detalladas en español enriquecidas con consejos atléticos avanzados al instante.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Acción Principal (4.0) */}
+                    {docSubTab === "action" && (
+                      <div className="space-y-4 animate-fadeIn">
+                        <div className="flex items-center gap-2 border-b border-teal-950 pb-2">
+                          <Flame className="w-5 h-5 text-orange-400" />
+                          <h4 className="text-xs font-bold font-mono text-white uppercase tracking-widest">
+                            4.0 ¿CUÁL ES LA ACCIÓN PRINCIPAL DE LA PLATAFORMA?
+                          </h4>
+                        </div>
+                        <p className="text-xs leading-relaxed text-teal-200/95">
+                          El corazón de Ímpetu reside en la interacción atlética. El flujo de acción principal que un usuario ejecuta se detalla en el siguiente ciclo operativo de contracciones:
+                        </p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
+                          <div className="p-3.5 rounded-xl border border-teal-900/40 bg-[#05171d] space-y-1">
+                            <span className="font-mono text-[#14f195] font-bold text-xs block">FASE A</span>
+                            <strong className="text-white text-xs block font-mono">Búsqueda & Estructuración</strong>
+                            <p className="text-[10px] text-teal-350 leading-relaxed">
+                              El usuario realiza búsquedas biomecánicas personalizadas por músculos específicos o equipamiento disponible. El catálogo devuelve ejercicios en español optimizados.
+                            </p>
+                          </div>
+
+                          <div className="p-3.5 rounded-xl border border-teal-900/40 bg-[#05171d] space-y-1">
+                            <span className="font-mono text-cyan-400 font-bold text-xs block">FASE B</span>
+                            <strong className="text-white text-xs block font-mono">Validación de Bloques</strong>
+                            <p className="text-[10px] text-teal-350 leading-relaxed">
+                              Al culminar las series de un ejercicio, el usuario presiona la acción prioritaria <span className="text-white">"Validar Bloque"</span>. El consenso computa el XP y acuña tokens de simulación instantáneos en el balance de su nodo físico local.
+                            </p>
+                          </div>
+
+                          <div className="p-3.5 rounded-xl border border-teal-900/40 bg-[#05171d] space-y-1">
+                            <span className="font-mono text-purple-400 font-bold text-xs block">FASE C</span>
+                            <strong className="text-white text-xs block font-mono">Firma Mutual P2P</strong>
+                            <p className="text-[10px] text-teal-355 leading-relaxed">
+                              Mediante consorcio asimétrico físico, dos compañeros en el gimnasio escanean sus firmas usando validación mutable cruzada, desbloqueando un subsidio colectivo de <strong className="text-[#14f195]">+35 $IMP adicionales</strong>.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* MVP Alcance Mínimo (5.0) */}
+                    {docSubTab === "mvp" && (
+                      <div className="space-y-4 animate-fadeIn">
+                        <div className="flex items-center gap-2 border-b border-teal-950 pb-2">
+                          <Dumbbell className="w-5 h-5 text-pink-400" />
+                          <h4 className="text-xs font-bold font-mono text-white uppercase tracking-widest">
+                            5.0 ALCANCE DE LA VERSIÓN MÍNIMA VIABLE (MVP)
+                          </h4>
+                        </div>
+                        <p className="text-xs leading-relaxed text-teal-200/95">
+                          El alcance mínimo que estamos entregando y cerrando para garantizar estabilidad y una excelente experiencia funcional incluye los siguientes módulos técnicos y de negocios:
+                        </p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                          <div className="p-3 bg-[#05171d]/60 border border-teal-900/30 rounded-xl flex items-start gap-2.5">
+                            <span className="text-xs">📖</span>
+                            <div>
+                              <strong className="text-white text-xs font-mono block">Buscador Multi-Filtro de Catálogos</strong>
+                              <p className="text-[10px] text-teal-350 leading-relaxed mt-0.5">
+                                Filtrado por partes clave, músculos target y equipos con traducción instantánea e inyecciones de tips de ejecución de Inteligencia Artificial en español.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="p-3 bg-[#05171d]/60 border border-teal-900/30 rounded-xl flex items-start gap-2.5">
+                            <span className="text-xs">🔑</span>
+                            <div>
+                              <strong className="text-white text-xs font-mono block">Simulador de Billetera RPC de Solana</strong>
+                              <p className="text-[10px] text-teal-350 leading-relaxed mt-0.5">
+                                Conectividad con wallets oficiales de Solana, permitiendo leer con seguridad la firma de red y reflejar tus balances de red reales en Devnet/Mainnet si están sincronizados.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="p-3 bg-[#05171d]/60 border border-teal-900/30 rounded-xl flex items-start gap-2.5">
+                            <span className="text-xs">💰</span>
+                            <div>
+                              <strong className="text-white text-xs font-mono block">Contabilidad Local Segura de $IMP</strong>
+                              <p className="text-[10px] text-teal-350 leading-relaxed mt-0.5">
+                                Un ledger local seguro de acuñación que reacciona a los puntos de XP que consigues, minando $IMP de manera instantánea directo a tu nodo.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="p-3 bg-[#05171d]/60 border border-teal-900/30 rounded-xl flex items-start gap-2.5">
+                            <span className="text-xs">🎁</span>
+                            <div>
+                              <strong className="text-white text-xs font-mono block">Marketplace de Generación de Descuentos</strong>
+                              <p className="text-[10px] text-teal-350 leading-relaxed mt-0.5">
+                                Sistema de reclamos de cupones con firmas asimétricas válidos para canjear descuentos reales en suplementos deportivos y pase de accesos VIP físicos.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Estado Actual (6.0) */}
+                    {docSubTab === "status" && (
+                      <div className="space-y-4 animate-fadeIn">
+                        <div className="flex items-center gap-2 border-b border-teal-950 pb-2">
+                          <Activity className="w-5 h-5 text-emerald-400" />
+                          <h4 className="text-xs font-bold font-mono text-white uppercase tracking-widest">
+                            6.0 ESTADO ACTUAL DEL PROYECTO
+                          </h4>
+                        </div>
+                        <p className="text-xs leading-relaxed text-teal-200/95">
+                          Actualmente, el proyecto se encuentra operando en fase <strong className="text-emerald-400">Live Alpha-Node v1.0.4</strong> de alta velocidad.
+                        </p>
+
+                        <div className="bg-[#05171d] p-4 rounded-xl border border-teal-900/40 space-y-2 mt-2">
+                          <span className="text-[10px] font-mono text-[#14f195] font-bold block uppercase tracking-wide">ESTADO OPERACIONAL DIRECTO:</span>
+                          <ul className="text-xs text-teal-200 list-disc list-inside space-y-1.5 leading-relaxed">
+                            <li><strong className="text-white">Secciones Front-end:</strong> Completamente desarrolladas con interfaces adaptativas fluidas y estados con animations robustas por `motion`.</li>
+                            <li><strong className="text-white">Caché unificado de Servidor:</strong> En nuestro backend full-stack habilitamos una inyección de caché pre-sembrada que evita el despliegue con base de datos en blanco. Resuelve el problema de latencia si la conexión a WorkoutX o ExerciseDB oficial excede límites de peticiones.</li>
+                            <li><strong className="text-white">Traductor AI proxy:</strong> Encaminado server-side de llaves secretas seguras para evitar exhalación de API keys en el navegador.</li>
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Próximos pasos (7.0) */}
+                    {docSubTab === "next" && (
+                      <div className="space-y-4 animate-fadeIn">
+                        <div className="flex items-center gap-2 border-b border-teal-950 pb-2">
+                          <TrendingUp className="w-5 h-5 text-purple-400" />
+                          <h4 className="text-xs font-bold font-mono text-white uppercase tracking-widest">
+                            7.0 PRÓXIMOS PASOS (HITOS & ROADMAP)
+                          </h4>
+                        </div>
+                        <p className="text-xs leading-relaxed text-teal-200/95">
+                          Para avanzar de la red Alpha-Node local a un ecosistema de escala global, nuestra planificación de ingeniería se divide en los siguientes desarrollos técnicos de alta prioridad:
+                        </p>
+
+                        <div className="space-y-3.5 pt-2">
+                          <div className="p-3 bg-purple-950/20 border border-purple-900/30 rounded-xl space-y-1">
+                            <div className="flex items-center justify-between">
+                              <strong className="text-white text-xs font-mono">HITO A: Token real SPL acuñable en Solana Devnet</strong>
+                              <span className="text-[9px] bg-purple-950 text-purple-300 font-mono font-bold px-1.5 py-0.5 rounded uppercase tracking-wide">En diseño</span>
+                            </div>
+                            <p className="text-[11px] text-teal-300 leading-relaxed">
+                              Creación de los contratos Anchor en Rust de Solana para permitir la transferencia automática de $IMP on-chain desde los monederos que validan los bloques deportivos, configurando pools de liquidez reales.
+                            </p>
+                          </div>
+
+                          <div className="p-3 bg-purple-950/20 border border-purple-900/30 rounded-xl space-y-1">
+                            <div className="flex items-center justify-between">
+                              <strong className="text-white text-xs font-mono">HITO B: Integración directa de Smartwatches & Wearables</strong>
+                              <span className="text-[9px] bg-purple-950 text-purple-300 font-mono font-bold px-1.5 py-0.5 rounded uppercase tracking-wide">Planificado</span>
+                            </div>
+                            <p className="text-[11px] text-teal-300 leading-relaxed">
+                              Involucrar conectores IoT de HealthKit, Apple Watch, Google Fit y Fitbit para alimentar el validador biomecánico de forma desatendida mediante frecuencia cardíaca acelerada y calorías comprobadas físicamente de forma activa.
+                            </p>
+                          </div>
+
+                          <div className="p-3 bg-purple-950/20 border border-purple-900/30 rounded-xl space-y-1">
+                            <div className="flex items-center justify-between">
+                              <strong className="text-white text-xs font-mono">HITO C: Consorcio multisig con Alianzas de Gimnasios</strong>
+                              <span className="text-[9px] bg-purple-950 text-purple-300 font-mono font-bold px-1.5 py-0.5 rounded uppercase tracking-wide">Fidelización</span>
+                            </div>
+                            <p className="text-[11px] text-teal-300 leading-relaxed">
+                              Involucrar pantallas interactivas de minado de bloques directamente en gimnasios premium, operando nodos locales de consorcio físico para verificar de forma segura a los atletas en sitio.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Roles y Trabajo (8.0) */}
+                    {docSubTab === "roles" && (
+                      <div className="space-y-4 animate-fadeIn">
+                        <div className="flex items-center gap-2 border-b border-teal-950 pb-2">
+                          <User className="w-5 h-5 text-indigo-400" />
+                          <h4 className="text-xs font-bold font-mono text-white uppercase tracking-widest">
+                            8.0 ROLES EN EL EQUIPO Y TRABAJO DISTRIBUIDO
+                          </h4>
+                        </div>
+                        <p className="text-xs leading-relaxed text-teal-200/95">
+                          Para garantizar un desarrollo ágil y la robustez técnica del protocolo de fitness gamificado Ímpetu de Solana, nuestro equipo se estructura bajo los siguientes roles y pesos funcionales operativos:
+                        </p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+                          <div className="p-3 rounded-xl bg-indigo-950/20 border border-indigo-900/30 space-y-1">
+                            <div className="flex items-center justify-between">
+                              <strong className="text-white text-xs font-mono">👨‍💻 Front-End & UX/UI Engineer</strong>
+                              <span className="text-[9px] font-mono font-bold bg-indigo-950 text-indigo-400 px-1.5 rounded">35% Carga</span>
+                            </div>
+                            <p className="text-[10.5px] text-teal-300 leading-relaxed">
+                              Responsable de construir toda la dApp, los loops interactivos, transiciones, estado local asíncrono e integración adaptativa responsive en el cliente.
+                            </p>
+                          </div>
+
+                          <div className="p-3 rounded-xl bg-indigo-950/20 border border-indigo-900/30 space-y-1">
+                            <div className="flex items-center justify-between">
+                              <strong className="text-white text-xs font-mono">⛓️ Solana Web3 Developer</strong>
+                              <span className="text-[9px] font-mono font-bold bg-indigo-950 text-indigo-400 px-1.5 rounded">25% Carga</span>
+                            </div>
+                            <p className="text-[10.5px] text-teal-300 leading-relaxed">
+                              Encargado de la firma criptográfica segura con billeteras de Solana (Phantom/Solflare), conexión segura de RPCs de Solanas Devnet y Mainnet.
+                            </p>
+                          </div>
+
+                          <div className="p-3 rounded-xl bg-indigo-950/20 border border-indigo-900/30 space-y-1">
+                            <div className="flex items-center justify-between">
+                              <strong className="text-white text-xs font-mono">🤖 AI & LLM Systems Engineer</strong>
+                              <span className="text-[9px] font-mono font-bold bg-indigo-950 text-indigo-400 px-1.5 rounded">20% Carga</span>
+                            </div>
+                            <p className="text-[10.5px] text-teal-300 leading-relaxed">
+                              Responsable del proxy seguro con el SDK de Gemini API para traducir semánticamente el catálogo de ejercicios biomecánicos y estructurar los consejos biomecánicos al instante.
+                            </p>
+                          </div>
+
+                          <div className="p-3 rounded-xl bg-indigo-950/20 border border-indigo-900/30 space-y-1">
+                            <div className="flex items-center justify-between">
+                              <strong className="text-white text-xs font-mono">💪 Atleta Validador / Advisor</strong>
+                              <span className="text-[9px] font-mono font-bold bg-indigo-950 text-indigo-400 px-1.5 rounded">20% Carga</span>
+                            </div>
+                            <p className="text-[10.5px] text-teal-300 leading-relaxed">
+                              Asesores biomecánicos que definen las curvas fisiológicas de XP del gimnasio (ejemplo: mayor XP por sentadilla pesada que por curl de bíceps) del algoritmo de Proof-of-Sweat.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Especificaciones Técnicas (9.0) */}
+                    {docSubTab === "technical" && (
+                      <div className="space-y-4 animate-fadeIn">
+                        <div className="flex items-center gap-2 border-b border-teal-950 pb-2">
+                          <Cpu className="w-5 h-5 text-[#9945ff]" />
+                          <h4 className="text-xs font-bold font-mono text-white uppercase tracking-widest">
+                            9.0 ESPECIFICACIONES TÉCNICAS (CONSENSO & TOKEN)
+                          </h4>
+                        </div>
+                        
+                        <div className="space-y-4 text-xs">
+                          <div>
+                            <span className="text-[10px] font-mono text-[#14f195] font-bold block uppercase tracking-wide">ALGORITMO DE MINADO DE $IMP (PROOF-OF-SWEAT):</span>
+                            <p className="text-teal-200 mt-1 leading-relaxed">
+                              El volumen total minado por ejercicio en el nodo se calcula dinámicamente bajo la siguiente parametrización de esfuerzo físico en el cliente:
+                            </p>
+                            <div className="bg-[#031318] p-3 rounded-xl font-mono text-[11px] text-[#14f195] border border-teal-900/40 my-2.5">
+                              IMP_MINADO = Ejercicio_XP * 3.0 + P2P_Firmas_Mutual
+                            </div>
+                            <ul className="text-teal-300 list-disc list-inside space-y-1.5 pl-1 leading-relaxed">
+                              <li><strong className="text-white">Ejercicio_XP:</strong> Los puntos de experiencia asignados científicamente a cada ejercicio de acuerdo al desgaste de fibras (músculos principales vs secundarios).</li>
+                              <li><strong className="text-white">P2P_Firmas_Mutual:</strong> Si un nodo compañero valida cercanía y corrobora el esfuerzo, se añade asimétricamente un subsidio adicional de <span className="text-white">+35 $IMP</span> por bloque verificado.</li>
+                            </ul>
+                          </div>
+
+                          <div className="p-3 bg-[#082029]/45 border border-teal-850/50 rounded-xl">
+                            <span className="text-[10px] text-purple-400 font-mono font-bold block uppercase mb-1">CUADRO DE DISTRIBUCIÓN DEL SUMINISTRO (TOKENOMICS):</span>
+                            <div className="grid grid-cols-2 gap-2 text-[11px] font-mono text-teal-300">
+                              <div className="flex justify-between border-b border-teal-950 pb-1">
+                                <span>🏋️ Recompensa Minado Diario:</span>
+                                <strong className="text-white">60%</strong>
+                              </div>
+                              <div className="flex justify-between border-b border-teal-950 pb-1">
+                                <span>💧 Pools de Liquidez & Canjes:</span>
+                                <strong className="text-white">20%</strong>
+                              </div>
+                              <div className="flex justify-between border-b border-teal-950 pb-1">
+                                <span>🏢 Alianzas / Gimnasios:</span>
+                                <strong className="text-white">10%</strong>
+                              </div>
+                              <div className="flex justify-between border-b border-teal-950 pb-1">
+                                <span>👥 Equipo de Desarrollo:</span>
+                                <strong className="text-white">10%</strong>
+                              </div>
+                            </div>
+                            <div className="text-[10px] text-teal-400/90 mt-2 font-sans italic">
+                              * El suministro máximo de tokens SPL está fijado en 10,000,000,000 $IMP. Los tokens del marketplace acumulados vuelven a recircular por consorcio local.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
                   </div>
-                )}
+
+                  {/* PREVIOUS / NEXT CHAPTER QUICK FLIP PAGES (UX Masterpiece) */}
+                  <div className="mt-8 pt-4 border-t border-teal-950 flex items-center justify-between font-mono text-xs select-none">
+                    {/* Previous Button link */}
+                    <button
+                      disabled={docSubTab === "welcome"}
+                      onClick={() => {
+                        const order = ["welcome", "building", "audience", "problem", "action", "mvp", "status", "next", "roles", "technical"];
+                        const currIndex = order.indexOf(docSubTab);
+                        if (currIndex > 0) setDocSubTab(order[currIndex - 1]);
+                      }}
+                      className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border transition duration-150 cursor-pointer ${
+                        docSubTab === "welcome"
+                          ? "opacity-30 border-teal-950 text-teal-600 pointer-events-none"
+                          : "border-teal-900/50 hover:bg-teal-950/60 text-teal-400 hover:text-white"
+                      }`}
+                    >
+                      &larr; ANT.
+                    </button>
+
+                    <span className="text-[10px] text-teal-500 font-mono">
+                      Cap. {["welcome", "building", "audience", "problem", "action", "mvp", "status", "next", "roles", "technical"].indexOf(docSubTab) + 1} de 10
+                    </span>
+
+                    {/* Next Button link */}
+                    <button
+                      disabled={docSubTab === "technical"}
+                      onClick={() => {
+                        const order = ["welcome", "building", "audience", "problem", "action", "mvp", "status", "next", "roles", "technical"];
+                        const currIndex = order.indexOf(docSubTab);
+                        if (currIndex < order.length - 1) setDocSubTab(order[currIndex + 1]);
+                      }}
+                      className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border transition duration-150 cursor-pointer ${
+                        docSubTab === "technical"
+                          ? "opacity-30 border-teal-950 text-teal-600 pointer-events-none"
+                          : "border-teal-900/50 hover:bg-[#0c2e38] text-[#14f195] hover:text-white"
+                      }`}
+                    >
+                      SIG. &rarr;
+                    </button>
+                  </div>
+
+                </div>
 
               </div>
 
               {/* Sticky bottom close panel */}
-              <div className="p-4 bg-[#05171d] border-t border-teal-900/60 flex justify-end gap-2">
+              <div className="p-4 bg-[#05171d] border-t border-teal-900/60 flex justify-end gap-2 shrink-0">
                 <button
                   onClick={() => setShowDocModal(false)}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 hover:from-cyan-400 hover:to-teal-500 hover:scale-[1.02] text-white font-mono font-extrabold text-xs transition uppercase cursor-pointer shadow-lg hover:shadow-[0_0_15px_rgba(31,193,195,0.4)]"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 hover:from-cyan-400 hover:to-teal-500 hover:scale-[1.01] text-white font-mono font-extrabold text-xs transition uppercase cursor-pointer shadow-lg hover:shadow-[0_0_15px_rgba(31,193,195,0.4)]"
                 >
-                  ENTENDIDO, VOLVER AL PANEL
+                  VOLVER AL PANEL DE ENTRENAMIENTO
                 </button>
               </div>
 
