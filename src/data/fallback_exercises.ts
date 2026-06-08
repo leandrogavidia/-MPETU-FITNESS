@@ -28,7 +28,7 @@ export const FALLBACK_EXERCISES: Exercise[] = [
     bodyPart: "upper arms",
     target: "biceps",
     equipment: "barbell",
-    gifUrl: "/src/assets/images/biceps_cyberflex_1780841992435.png",
+    gifUrl: "/assets/images/biceps_cyberflex_1780841992435.png",
     instructions: [
       "Stand up straight with a barbell in your hands, palms facing forward.",
       "Keep your elbows close to your torso and curl the weights while contracting your biceps.",
@@ -59,7 +59,7 @@ export const FALLBACK_EXERCISES: Exercise[] = [
     bodyPart: "shoulders",
     target: "deltoids",
     equipment: "dumbbell",
-    gifUrl: "/src/assets/images/lateral_cyberflex_1780842006155.png",
+    gifUrl: "/assets/images/lateral_cyberflex_1780842006155.png",
     instructions: [
       "Stand with dumbbells at your sides, knees slightly bent.",
       "Perfect a slight forward lean at the hips.",
@@ -90,7 +90,7 @@ export const FALLBACK_EXERCISES: Exercise[] = [
     bodyPart: "upper arms",
     target: "triceps",
     equipment: "cable",
-    gifUrl: "/src/assets/images/pushdown_cyberflex_1780842019157.png",
+    gifUrl: "/assets/images/pushdown_cyberflex_1780842019157.png",
     instructions: [
       "Attach a straight or angled bar (or rope) to a high pulley and grab with palms facing down.",
       "Standing upright with a very slight forward lean, bring your upper arms close to your body.",
@@ -121,7 +121,7 @@ export const FALLBACK_EXERCISES: Exercise[] = [
     bodyPart: "chest",
     target: "pectorals",
     equipment: "body weight",
-    gifUrl: "/src/assets/images/pushup_cyberflex_1780842033064.png",
+    gifUrl: "/assets/images/pushup_cyberflex_1780842033064.png",
     instructions: [
       "Place your hands on the floor slightly wider than shoulder-width apart.",
       "Extend your legs feet behind you, toes tucked, creating a straight plank posture.",
@@ -152,7 +152,7 @@ export const FALLBACK_EXERCISES: Exercise[] = [
     bodyPart: "back",
     target: "lats",
     equipment: "body weight",
-    gifUrl: "/src/assets/images/pullup_cyberflex_1780842047310.png",
+    gifUrl: "/assets/images/pullup_cyberflex_1780842047310.png",
     instructions: [
       "Hang from a pull-up bar with an overhand grip, hands slightly wider than shoulder-width.",
       "Pull your body up by driving your elbows down toward your floor, pulling your chest to the bar.",
@@ -183,7 +183,7 @@ export const FALLBACK_EXERCISES: Exercise[] = [
     bodyPart: "cardiovascular system",
     target: "quads",
     equipment: "barbell",
-    gifUrl: "/src/assets/images/378dc279-734a-4920-a00c-9c6a7b375641.webp",
+    gifUrl: "/assets/images/squat_cyberflex_1780838673035.png",
     instructions: [
       "Rest a barbell on your upper back, stand with feet shoulder-width wide.",
       "Lower your body by bending at the hips and knees, sitting back as if in a chair.",
