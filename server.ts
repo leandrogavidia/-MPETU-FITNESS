@@ -1,6 +1,4 @@
 import express from "express";
-import path from "path";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 import { FALLBACK_EXERCISES, Exercise } from "./src/data/fallback_exercises.js";
@@ -9,7 +7,6 @@ import { FALLBACK_EXERCISES, Exercise } from "./src/data/fallback_exercises.js";
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
 
 app.use(express.json());
 
@@ -643,30 +640,7 @@ app.post("/api/exercises/enrich", async (req, res) => {
   }
 });
 
-// Serve Frontend SPA
-async function startServer() {
-  // Vite integration in development env
-  if (process.env.NODE_ENV !== "production") {
-    console.log("Starting development Express server with Vite middleware...");
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa"
-    });
-    
-    app.use(vite.middlewares);
-  } else {
-    // In production, serve built client assets from /dist
-    console.log("Starting production Express server serving /dist folder...");
-    const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
-    });
-  }
-
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Solana Fitness Explorer Server listening on http://localhost:${PORT}`);
-  });
-}
-
-startServer();
+// Export the configured Express app. It is consumed by:
+//  - dev.ts          -> standalone HTTP server for local dev / Cloud Run (serves the SPA too)
+//  - api/[...path].ts -> Vercel serverless function (frontend is served by Vercel's CDN)
+export default app;
