@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Ímpetu",
+  "description": "Explorador de ejercicios en tiempo real con temática de Solana, impulsado por ExerciseDB y traducciones inteligentes de Gemini AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
